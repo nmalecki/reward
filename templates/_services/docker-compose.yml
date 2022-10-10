@@ -6,7 +6,7 @@ version: "3.5"
 services:
   traefik:
     container_name: traefik
-    image: {{ default "traefik" .reward_traefik_image }}:{{ default "2.2" .traefik_version }}
+    image: {{ default "traefik" .reward_traefik_image }}:{{ default "2.9.1" .traefik_version }}
     ports:
       - "{{ default "127.0.0.1" .traefik_listen }}:80:80"     # The HTTP port
       - "{{ default "127.0.0.1" .traefik_listen }}:443:443"   # The HTTPS port
@@ -32,6 +32,7 @@ services:
       - traefik.http.routers.traefik.service=api@internal
       - dev.reward.container.name=traefik
       - dev.reward.environment.name=reward
+      - traefik.docker.network="traefik_default"
     restart: {{ default "always" .reward_restart_policy }}
 
 {{ if isEnabledPermissive .reward_portainer }}
